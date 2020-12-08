@@ -9,6 +9,9 @@ import VideoCard from "../../components/Video";
 import BottomBar from "../../components/BottomBar";
 import Whishlist from "../../components/Whishlist";
 
+import Logo from "../../components/Logo";
+
+
 const Room = (props) => {
   const { signOut } = useAuth();
   const currentUser = sessionStorage.getItem("user");
@@ -321,6 +324,7 @@ const Room = (props) => {
         screenShare={screenShare}
       />
       <Whishlist />
+      <Logo />
     </Container>
   );
 };
@@ -338,6 +342,8 @@ const VideoBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 750px;
 
   video {
     width: 100%;

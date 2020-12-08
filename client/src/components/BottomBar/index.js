@@ -30,13 +30,14 @@ const BottomBar = ({
         )}
       </CameraButton>
 
-      <Button onClick={toggleCameraAudio} data-switch="audio">
+      <AudioButton onClick={toggleCameraAudio} data-switch="audio">
         {userVideoAudio.audio ? (
           <FaMicrophone size={25} color="#BD5219" />
         ) : (
           <FaMicrophoneSlash size={25} color="#BD5219" />
         )}
-      </Button>
+      </AudioButton>
+
       <Button onClick={goToBack}>
         <FaPhoneSlash size={25} color="#BD5219" />
       </Button>
@@ -82,6 +83,31 @@ justify-content: center;
   padding: 5px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 35px;
+  margin-top: 10%;
+
+
+  :hover {
+    cursor: pointer;
+  }
+
+  * {
+    pointer-events: none;
+  }
+`;
+
+const AudioButton = styled.div`
+width: 70px;
+height: 70px;
+align-items: center;
+justify-content: center;
+  display: flex;
+  border: none;
+  font-size: 0.9375rem;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 35px;
+  margin-top: 10%;
+  margin-left: 2%;
 
 
   :hover {
