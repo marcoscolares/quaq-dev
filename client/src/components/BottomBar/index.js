@@ -21,13 +21,15 @@ const BottomBar = ({
       <Button onClick={clickScreenSharing}>
         <FaDesktop size={25} color="#BD5219" />
       </Button>
-      <Button onClick={toggleCameraAudio} data-switch="video">
+
+      <CameraButton onClick={toggleCameraAudio} data-switch="video">
         {userVideoAudio.video ? (
           <FaVideo size={25} color="#BD5219" />
         ) : (
-          <FaVideoSlash size={25} color="#BD5219" />
+            <FaVideoSlash size={25} color="#BD5219" />
         )}
-      </Button>
+      </CameraButton>
+
       <Button onClick={toggleCameraAudio} data-switch="audio">
         {userVideoAudio.audio ? (
           <FaMicrophone size={25} color="#BD5219" />
@@ -66,6 +68,28 @@ const Button = styled.div`
 
   :hover {
     cursor: pointer;
+  }
+`;
+
+const CameraButton = styled.div`
+width: 70px;
+height: 70px;
+align-items: center;
+justify-content: center;
+  display: flex;
+  border: none;
+  font-size: 0.9375rem;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 35px;
+
+
+  :hover {
+    cursor: pointer;
+  }
+
+  * {
+    pointer-events: none;
   }
 `;
 
