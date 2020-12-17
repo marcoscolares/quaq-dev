@@ -6,6 +6,7 @@ import { useAuth } from "../../hooks/auth";
 import socket from "../../services/socket";
 
 import VideoCard from "../../components/Video";
+import Videomini from "../../components/Videomini";
 import BottomBar from "../../components/BottomBar";
 import Whishlist from "../../components/Whishlist";
 
@@ -307,7 +308,7 @@ const Room = (props) => {
   return (
     <Container>
       {/* Current User Video */}
-      <VideoBox className={`width-peer${peers.length > 8 ? "" : peers.length}`}>
+      <VideoBox className={`width-peer${peers.length >= 3 ? "" : peers.length}`}>
         {userVideoAudio["localUser"].video ? null : (
           <UserName>{currentUser}</UserName>
         )}
@@ -325,6 +326,7 @@ const Room = (props) => {
       />
       <Whishlist />
       <Logo />
+      <Videomini />
     </Container>
   );
 };
@@ -333,7 +335,7 @@ const Container = styled.div`
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 `;
 

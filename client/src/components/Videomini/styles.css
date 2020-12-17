@@ -1,0 +1,38 @@
+.video-left {
+    position: absolute;
+    bottom: 0;
+    top: 90%;
+    left: 5%;
+}
+
+.video-right {
+    position: absolute;
+    bottom: 1;
+    top: 90%;
+    right: 5%;
+}
+
+.table-left {
+    position: absolute;
+    width: 630px;
+    height: 30px;
+    left: 0px;
+    top: 90.7%;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 70px solid  rgba(255, 255, 255, 0.8);
+
+
+}
+
+.table-right {
+    position: absolute;
+    width: 630px;
+    height: 30px;
+    right: 0px;
+    top: 90.7%;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 70px solid  rgba(255, 255, 255, 0.8);
+
+}
