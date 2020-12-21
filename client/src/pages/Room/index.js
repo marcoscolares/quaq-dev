@@ -360,7 +360,7 @@ const VideoBox = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 837px;
+  height: 800px;
 
   video {
     width: 100%;
