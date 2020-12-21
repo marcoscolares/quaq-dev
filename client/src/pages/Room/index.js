@@ -330,8 +330,8 @@ const Room = (props) => {
       
 
       {/* Joined User Vidoe */}
-      {peers &&
-        peers.map((peer, index, arr) => createUserVideo(peer, index, arr))}
+      {/* {peers &&
+        peers.map((peer, index, arr) => createUserVideo(peer, index, arr))} */}
       <BottomBar
         clickScreenSharing={clickScreenSharing}
         goToBack={goToBack}
