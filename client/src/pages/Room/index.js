@@ -310,7 +310,7 @@ const Room = (props) => {
       {/* Current User Video */}
 
 
-      <VideoBox className={`width-peer${peers.length = 2 ? "" : peers.length}`}>
+      <VideoBox className={`width-peer${peers.length < 3 ? "" : peers.length}`}>
         {userVideoAudio["localUser"].video ? null : (
           <UserName>{currentUser}</UserName>
         )}
@@ -330,8 +330,8 @@ const Room = (props) => {
       
 
       {/* Joined User Vidoe */}
-      {/* {peers &&
-        peers.map((peer, index, arr) => createUserVideo(peer, index, arr))} */}
+      {peers &&
+        peers.map((peer, index, arr) => createUserVideo(peer, index, arr))}
       <BottomBar
         clickScreenSharing={clickScreenSharing}
         goToBack={goToBack}
