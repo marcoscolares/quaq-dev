@@ -317,14 +317,14 @@ const Room = (props) => {
         <video ref={userVideoRef} muted autoPlay playsInline />
       </VideoBox>
 
-      <Videobox2 className={`width-peer${peers.length > 2 ? "" : peers.length}`}>
+      {/* <Videobox2 className={`width-peer${peers.length > 2 ? "" : peers.length}`}>
         {userVideoAudio["localUser"].video ? null : (
          <>
          </>
         )}
         <video ref={userVideoRef} muted autoPlay playsInline />
         <UserNameMini>@{currentUser}</UserNameMini>
-      </Videobox2>
+      </Videobox2> */}
 
 
       
@@ -360,7 +360,7 @@ const VideoBox = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 830px;
+  height: 130%;
 
   video {
     width: 100%;
