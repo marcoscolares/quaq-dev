@@ -1,22 +1,13 @@
 import React from "react";
-import "../Videomini/styles.css";
+import "./styles.css";
 
 
-function Videomini() {
+function Tables() {
 
   return (
     <>
 
-    <div className="video-left">
-        <h2>imagem1</h2>
-    </div>
-
     <div className="table-left"></div>
-
-
-    <div className="video-right">
-        <h2>imagem2</h2>
-    </div>
 
     <div className="table-right"></div>
 
@@ -25,4 +16,4 @@ function Videomini() {
 }
 
 
-export default Videomini;
+export default Tables;

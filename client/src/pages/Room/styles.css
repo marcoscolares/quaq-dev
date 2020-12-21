@@ -1,0 +1,6 @@
+.video-bola {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+    border: red solid 2px;
+}

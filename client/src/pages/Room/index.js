@@ -308,12 +308,27 @@ const Room = (props) => {
   return (
     <Container>
       {/* Current User Video */}
-      <VideoBox className={`width-peer${peers.length >= 3 ? "" : peers.length}`}>
+
+
+      <VideoBox className={`width-peer${peers.length > 1 ? "" : peers.length}`}>
         {userVideoAudio["localUser"].video ? null : (
           <UserName>{currentUser}</UserName>
         )}
         <video ref={userVideoRef} muted autoPlay playsInline />
       </VideoBox>
+
+      <Videobox2 className={`width-peer${peers.length > 2 ? "" : peers.length}`}>
+        {userVideoAudio["localUser"].video ? null : (
+         <>
+         </>
+        )}
+        <video ref={userVideoRef} muted autoPlay playsInline />
+        <UserNameMini>@{currentUser}</UserNameMini>
+      </Videobox2>
+
+
+      
+
       {/* Joined User Vidoe */}
       {peers &&
         peers.map((peer, index, arr) => createUserVideo(peer, index, arr))}
@@ -345,7 +360,7 @@ const VideoBox = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 750px;
+  height: 837px;
 
   video {
     width: 100%;
@@ -354,10 +369,37 @@ const VideoBox = styled.div`
   }
 `;
 
+const Videobox2 = styled.div`
+position: absolute;
+align-items: center;
+justify-content: center;
+width: 80px;
+height: 80px;
+top: 75%;
+left: 2%;
+display: grid;
+
+video {
+  border-radius: 100%;
+  width: 100%;
+  height: 100%;
+  border: #ae4f1e solid 4px;
+  object-fit: cover;
+}
+`;
+
 const UserName = styled.div`
   position: absolute;
   font-size: calc(20px + 5vmin);
   z-index: 1;
+`;
+
+const UserNameMini = styled.div`
+  position: absolute;
+  font-size: 14.5px;
+  z-index: 1;
+  top: 105%;
+  left: 7%;
 `;
 
 const FaIcon = styled.i`
