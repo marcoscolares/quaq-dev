@@ -310,7 +310,7 @@ const Room = (props) => {
       {/* Current User Video */}
 
 
-      <VideoBox className={`width-peer${peers.length < 3 ? "" : peers.length}`}>
+      <VideoBox className={`width-peer${peers.length = 2 ? "" : peers.length}`}>
         {userVideoAudio["localUser"].video ? null : (
           <UserName>{currentUser}</UserName>
         )}
