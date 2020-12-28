@@ -2,7 +2,7 @@
 
 Videe-Group-Meeting is a simple video chat application for multi-users based on React, Node Express and WebRTC.
 
-This project is **deployed** at: https://api-quaq-video.herokuapp.com/
+This project is **deployed** at: https://quaq-dev.herokuapp.com/
 
 **Technologies Used**
 
