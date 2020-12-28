@@ -6,7 +6,7 @@ import { useAuth } from "../../hooks/auth";
 import socket from "../../services/socket";
 
 import VideoCard from "../../components/Video";
-import Videomini from "../../components/Videomini";
+import Videotable from "../../components/Videotable";
 import BottomBar from "../../components/BottomBar";
 import Whishlist from "../../components/Whishlist";
 
@@ -341,7 +341,7 @@ const Room = (props) => {
       />
       <Whishlist />
       <Logo />
-      <Videomini />
+      <Videotable />
     </Container>
   );
 };
