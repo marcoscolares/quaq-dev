@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap');
@@ -10,10 +10,15 @@ export default createGlobalStyle`
     outline: 0;
   }
 
+  html, body, #root {
+    height: 100%;
+  }
+
   body {
     background: #171718;
     color: #FFF;
-    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
   }
 
   body, input, button {

@@ -1,11 +1,11 @@
-import React, { useState, Fragment, useEffect } from "react";
-import { useAuth } from "../../hooks/auth";
-import styled from "styled-components";
-import { FaHeart, FaTimes } from "react-icons/fa";
-import socketIOClient from "socket.io-client";
-import api from "../../services/api";
+import React, { useState, Fragment, useEffect } from 'react';
+import { useAuth } from '../../hooks/auth';
+import styled from 'styled-components';
+import { FaHeart, FaTimes } from 'react-icons/fa';
+import socketIOClient from 'socket.io-client';
+import api from '../../services/api';
 
-import BackgroundIncepa from "../../assets/backgroundIncepa.png";
+import BackgroundIncepa from '../../assets/backgroundIncepa.png';
 
 function Whishlist() {
   const [open, setOpen] = useState(false);
@@ -13,19 +13,19 @@ function Whishlist() {
   const { token } = useAuth();
 
   async function handleWhishlist() {
-    const response = await api.get("/whishlist/roca");
+    const response = await api.get('/whishlist/roca');
     setWhishlist(response.data);
   }
 
   useEffect(() => {
     handleWhishlist();
 
-    const socket = socketIOClient.connect("https://api.quaq.dev", {
+    const socket = socketIOClient.connect('https://api.quaq.dev', {
       query: {
         token,
       },
     });
-    socket.on("update-whishlist", () => {
+    socket.on('update-whishlist', () => {
       handleWhishlist();
     });
   }, [token]);
@@ -42,12 +42,12 @@ function Whishlist() {
       <Card open={open}>
         <CardHeader>Lista de favoritos</CardHeader>
         <Items>
-          {whishlist.map((item, index) => (
+          {/* {whishlist.map((item, index) => (
             <Item key={index}>
               <ItemImage src={item.images[0]} />
               <ItemText>{item.description}</ItemText>
             </Item>
-          ))}
+          ))} */}
         </Items>
       </Card>
     </Fragment>
@@ -73,7 +73,7 @@ const Button = styled.div`
 
 const Card = styled.div`
   position: absolute;
-  display: ${(props) => (props.open ? "initial" : "none")};
+  display: ${(props) => (props.open ? 'initial' : 'none')};
   top: 20px;
   right: 20px;
   width: 375px;

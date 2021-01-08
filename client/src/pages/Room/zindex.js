@@ -1,21 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
-import Peer from "simple-peer";
-import styled from "styled-components";
-import { useAuth } from "../../hooks/auth";
+import React, { useState, useEffect, useRef } from 'react';
+import Peer from 'simple-peer';
+import { useAuth } from '../../hooks/auth';
 
-import socket from "../../services/socket";
+import socket from '../../services/socket';
 
-import VideoCard from "../../components/Video";
-import Videotable from "../../components/Videotable";
-import BottomBar from "../../components/BottomBar";
-import Whishlist from "../../components/Whishlist";
+import VideoCard from '../../components/Video';
+import Videotable from '../../components/Videotable';
+import BottomBar from '../../components/BottomBar';
+import Whishlist from '../../components/Whishlist';
 
-import Logo from "../../components/Logo";
+import Logo from '../../components/Logo';
 
+import {
+  Container,
+  VideoBox,
+  VideoBox2,
+  VideoBox3,
+  VideoBox4,
+  VideoBox5,
+  VideoBox6,
+  VideoBox7,
+  VideoBox8,
+  VideoBox9,
+  UserName,
+  UserNameMini,
+  FaIcon,
+  Test,
+  videoBoxCircleContainer,
+  MainContainer,
+} from './styles';
 
 const Room = (props) => {
   const { signOut } = useAuth();
-  const currentUser = sessionStorage.getItem("user");
+  const currentUser = sessionStorage.getItem('user');
   const [peers, setPeers] = useState([]);
   const [userVideoAudio, setUserVideoAudio] = useState({
     localUser: { video: true, audio: true },
@@ -27,9 +44,11 @@ const Room = (props) => {
   const userStream = useRef();
   const roomId = props.match.params.roomId;
 
+  const loop = [1, 2, 3];
+
   useEffect(() => {
     // Set Back Button Event
-    window.addEventListener("popstate", goToBack);
+    window.addEventListener('popstate', goToBack);
 
     // Connect Camera & Mic
     navigator.mediaDevices
@@ -38,8 +57,8 @@ const Room = (props) => {
         userVideoRef.current.srcObject = stream;
         userStream.current = stream;
 
-        socket.emit("BE-join-room", { roomId, userName: currentUser });
-        socket.on("FE-user-join", (users) => {
+        socket.emit('BE-join-room', { roomId, userName: currentUser });
+        socket.on('FE-user-join', (users) => {
           // all users
           const peers = [];
           users.forEach(({ userId, info }) => {
@@ -70,7 +89,7 @@ const Room = (props) => {
           setPeers(peers);
         });
 
-        socket.on("FE-receive-call", ({ signal, from, info }) => {
+        socket.on('FE-receive-call', ({ signal, from, info }) => {
           let { userName, video, audio } = info;
           const peerIdx = findPeer(from);
 
@@ -96,12 +115,12 @@ const Room = (props) => {
           }
         });
 
-        socket.on("FE-call-accepted", ({ signal, answerId }) => {
+        socket.on('FE-call-accepted', ({ signal, answerId }) => {
           const peerIdx = findPeer(answerId);
           peerIdx.peer.signal(signal);
         });
 
-        socket.on("FE-user-leave", ({ userId, userName }) => {
+        socket.on('FE-user-leave', ({ userId, userName }) => {
           const peerIdx = findPeer(userId);
           peerIdx.peer.destroy();
           setPeers((users) => {
@@ -111,14 +130,14 @@ const Room = (props) => {
         });
       });
 
-    socket.on("FE-toggle-camera", ({ userId, switchTarget }) => {
+    socket.on('FE-toggle-camera', ({ userId, switchTarget }) => {
       const peerIdx = findPeer(userId);
 
       setUserVideoAudio((preList) => {
         let video = preList[peerIdx.userName].video;
         let audio = preList[peerIdx.userName].audio;
 
-        if (switchTarget === "video") video = !video;
+        if (switchTarget === 'video') video = !video;
         else audio = !audio;
 
         return {
@@ -136,7 +155,7 @@ const Room = (props) => {
 
   useEffect(() => {
     window.onbeforeunload = () => {
-      socket.emit("BE-leave-room", { roomId, leaver: currentUser });
+      socket.emit('BE-leave-room', { roomId, leaver: currentUser });
     };
   }, [currentUser, roomId]);
 
@@ -147,14 +166,14 @@ const Room = (props) => {
       stream,
     });
 
-    peer.on("signal", (signal) => {
-      socket.emit("BE-call-user", {
+    peer.on('signal', (signal) => {
+      socket.emit('BE-call-user', {
         userToCall: userId,
         from: caller,
         signal,
       });
     });
-    peer.on("disconnect", () => {
+    peer.on('disconnect', () => {
       peer.destroy();
     });
 
@@ -168,11 +187,11 @@ const Room = (props) => {
       stream,
     });
 
-    peer.on("signal", (signal) => {
-      socket.emit("BE-accept-call", { signal, to: callerId });
+    peer.on('signal', (signal) => {
+      socket.emit('BE-accept-call', { signal, to: callerId });
     });
 
-    peer.on("disconnect", () => {
+    peer.on('disconnect', () => {
       peer.destroy();
     });
 
@@ -185,44 +204,56 @@ const Room = (props) => {
     return peersRef.current.find((p) => p.peerID === id);
   }
 
-  function writeUserName(userName, index) {
-    if (userVideoAudio.hasOwnProperty(userName)) {
-      if (!userVideoAudio[userName].video) {
-        return <UserName key={userName}>{userName}</UserName>;
-      }
+  function writeUserName(userName) {
+    // if (userVideoAudio.hasOwnProperty(userName)) {
+    // if (!userVideoAudio[userName].video) {
+    return <UserName key={userName}>{userName}</UserName>;
+    // }
+    // }
+  }
+
+  function createMainVideo(peer, index, arr) {
+    if (peer === 1) {
+      return (
+        <>
+          <VideoBox onClick={expandScreen} key={index}>
+            {writeUserName(peer.userName)}
+            <FaIcon className="fas fa-expand" />
+          </VideoBox>
+        </>
+      );
     }
   }
 
-  function createUserVideo(peer, index, arr) {
-    return (
-      <VideoBox
-        className={`width-peer${peers.length > 8 ? "" : peers.length}`}
-        onClick={expandScreen}
-        key={index}
-      >
-        {writeUserName(peer.userName)}
-        <FaIcon className="fas fa-expand" />
-        <VideoCard key={index} peer={peer} number={arr.length} />
-      </VideoBox>
-    );
+  function createCircleVideos(peer, index, arr) {
+    if (peer > 1) {
+      return (
+        <>
+          <VideoBox2 onClick={expandScreen} key={index}>
+            {writeUserName(peer.userName)}
+            <FaIcon className="fas fa-expand" />
+          </VideoBox2>
+        </>
+      );
+    }
   }
 
   // BackButton
   const goToBack = async (e) => {
     e.preventDefault();
-    socket.emit("BE-leave-room", { roomId, leaver: currentUser });
-    window.location.href = "/";
+    socket.emit('BE-leave-room', { roomId, leaver: currentUser });
+    window.location.href = '/';
     await signOut();
   };
 
   const toggleCameraAudio = (e) => {
-    const target = e.target.getAttribute("data-switch");
+    const target = e.target.getAttribute('data-switch');
 
     setUserVideoAudio((preList) => {
-      let videoSwitch = preList["localUser"].video;
-      let audioSwitch = preList["localUser"].audio;
+      let videoSwitch = preList['localUser'].video;
+      let audioSwitch = preList['localUser'].audio;
 
-      if (target === "video") {
+      if (target === 'video') {
         const userVideoTrack = userVideoRef.current.srcObject.getVideoTracks()[0];
         videoSwitch = !videoSwitch;
         userVideoTrack.enabled = videoSwitch;
@@ -243,7 +274,7 @@ const Room = (props) => {
       };
     });
 
-    socket.emit("BE-toggle-camera-audio", { roomId, switchTarget: target });
+    socket.emit('BE-toggle-camera-audio', { roomId, switchTarget: target });
   };
 
   const clickScreenSharing = () => {
@@ -258,7 +289,7 @@ const Room = (props) => {
             peer.replaceTrack(
               peer.streams[0]
                 .getTracks()
-                .find((track) => track.kind === "video"),
+                .find((track) => track.kind === 'video'),
               screenTrack,
               userStream.current
             );
@@ -271,7 +302,7 @@ const Room = (props) => {
                 screenTrack,
                 peer.streams[0]
                   .getTracks()
-                  .find((track) => track.kind === "video"),
+                  .find((track) => track.kind === 'video'),
                 userStream.current
               );
             });
@@ -307,106 +338,100 @@ const Room = (props) => {
 
   return (
     <Container>
-      {/* Current User Video */}
+      <VideoBox></VideoBox>
+      <VideoBox></VideoBox>
 
+      <VideoBox2 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox2>
 
-      <VideoBox className={`width-peer${peers.length < 3 ? "" : peers.length}`}>
-        {userVideoAudio["localUser"].video ? null : (
-          <UserName>{currentUser}</UserName>
-        )}
-        <video ref={userVideoRef} muted autoPlay playsInline />
-      </VideoBox>
+      <VideoBox3 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox3>
 
-      {/* <Videobox2 className={`width-peer${peers.length > 2 ? "" : peers.length}`}>
-        {userVideoAudio["localUser"].video ? null : (
-         <>
-         </>
-        )}
-        <video ref={userVideoRef} muted autoPlay playsInline />
-        <UserNameMini>@{currentUser}</UserNameMini>
-      </Videobox2> */}
+      <VideoBox4 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox4>
 
+      <VideoBox5 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox5>
 
-      
+      <VideoBox6 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox6>
 
-      {/* Joined User Vidoe */}
-      {peers &&
-        peers.map((peer, index, arr) => createUserVideo(peer, index, arr))}
+      <VideoBox7 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox7>
+
+      <VideoBox8 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox8>
+
+      <VideoBox9 onClick={expandScreen}>
+        {writeUserName('nome')}
+        <FaIcon className="fas fa-expand" />
+      </VideoBox9>
+
       <BottomBar
         clickScreenSharing={clickScreenSharing}
         goToBack={goToBack}
         toggleCameraAudio={toggleCameraAudio}
-        userVideoAudio={userVideoAudio["localUser"]}
+        userVideoAudio={userVideoAudio['localUser']}
         screenShare={screenShare}
       />
       <Whishlist />
       <Logo />
       <Videotable />
     </Container>
+
+    //   <Container>
+    // Current User Video
+
+    //     {/* <VideoBox2>
+    //       {userVideoAudio['localUser'].video ? null : <></>}
+    //       <video ref={userVideoRef} muted autoPlay playsInline />
+    //       <UserNameMini>@{currentUser}</UserNameMini>
+    //     </VideoBox2> */}
+
+    //     {/* Joined User Vidoe */}
+    //     {/* {peers.length} */}
+    //     <MainContainer>
+    //       <VideoBox>
+    //         {userVideoAudio['localUser'].video ? null : (
+    //           <UserName>{currentUser}</UserName>
+    //         )}
+    //         <video ref={userVideoRef} muted autoPlay playsInline />
+    //         {peers &&
+    //           loop.map((peer, index, arr) => createMainVideo(peer, index, arr))}
+    //       </VideoBox>
+    //     </MainContainer>
+
+    //     {peers &&
+    //       loop.map((peer, index, arr) => createCircleVideos(peer, index, arr))}
+
+    //     <videoBoxCircleContainer />
+
+    //     <BottomBar
+    //       clickScreenSharing={clickScreenSharing}
+    //       goToBack={goToBack}
+    //       toggleCameraAudio={toggleCameraAudio}
+    //       userVideoAudio={userVideoAudio['localUser']}
+    //       screenShare={screenShare}
+    //     />
+    //     <Whishlist />
+    //     <Logo />
+    //     <Videotable />
+    //   </Container>
   );
 };
-
-const Container = styled.div`
-  display: grid;
-  height: 100vh;
-  width: 100vw;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-`;
-
-const VideoBox = styled.div`
-  border: 1px solid #222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 130%;
-
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const Videobox2 = styled.div`
-position: absolute;
-align-items: center;
-justify-content: center;
-width: 80px;
-height: 80px;
-top: 75%;
-left: 2%;
-display: grid;
-
-video {
-  border-radius: 100%;
-  width: 100%;
-  height: 100%;
-  border: #ae4f1e solid 4px;
-  object-fit: cover;
-}
-`;
-
-const UserName = styled.div`
-  position: absolute;
-  font-size: calc(20px + 5vmin);
-  z-index: 1;
-`;
-
-const UserNameMini = styled.div`
-  position: absolute;
-  font-size: 14.5px;
-  z-index: 1;
-  top: 105%;
-  left: 7%;
-`;
-
-const FaIcon = styled.i`
-  display: none;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-`;
 
 export default Room;
